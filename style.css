@@ -1,0 +1,112 @@
+body{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: 1s ease;
+    overflow-x: hidden;
+}
+
+header,main{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Archivo", sans-serif;
+}
+
+
+header{
+    width: 100%;
+    text-align: center;
+    padding: 0.7rem;
+    background-color: antiquewhite;
+    color: #2F4F4F ;
+    margin-bottom: 1rem;
+}
+
+
+section{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    background-color:bisque;
+    border-radius: 10px;
+    border-radius: 10px;
+    box-shadow: 1px 2px 5px black;
+    width: 50%;
+    max-width: 100%;
+    padding: 1rem;
+    margin: 0.2rem;
+    transition: 1s;
+}
+
+
+label{
+    font-size: large;
+}
+
+h2{
+    text-align: center;
+    color: #2F4F4F ;
+}
+
+#bookFormYear,#bookFormTitle,#bookFormAuthor{
+    display: flex;
+    width: 100%;
+}
+#searchBookTitle{
+    display: flex;
+    width: 100%;
+    margin-bottom: 0.4rem;
+    margin-top: 0.4rem;
+}
+
+button {
+    position: relative;
+    background-color: white;
+    border-radius: 5px;
+    z-index: 2;
+    transition: color 0.45s; 
+    overflow: hidden;
+}
+
+button::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(88, 88, 88);
+    transform: scaleY(0);
+    z-index: -1; 
+    transition: transform 0.45s;
+    border-radius: 5px;
+}
+
+button:hover {
+    color: white;
+}
+
+button:hover::after {
+    transform: scaleY(1);
+}
+
+
+#searchSubmit, #bookFormSubmit {
+    display: block;
+    margin: 0 auto; 
+    text-align: center;
+}
+
+
+@media only screen and (max-width: 2000px) {
+    section{
+        width:29%;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    section{
+        width:80%;
+    }
+}
