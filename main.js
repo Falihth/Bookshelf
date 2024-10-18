@@ -12,22 +12,17 @@ function changeBackground() {
 
 setInterval(changeBackground, 6000);
 
-// Simpan data buku dalam array
-let books = [];
+let books = JSON.parse(localStorage.getItem('books')) || [];
 
-// Ambil elemen dari DOM
-const bookForm = document.getElementById('bookForm');
 const searchBookForm = document.getElementById('searchBook');
 const incompleteBookList = document.getElementById('incompleteBookList');
 const completeBookList = document.getElementById('completeBookList');
+const bookForm = document.getElementById('bookForm');
 
-// Fungsi untuk menampilkan buku
 function displayBooks() {
-  // Kosongkan daftar buku terlebih dahulu
   incompleteBookList.innerHTML = '';
   completeBookList.innerHTML = '';
 
-  // Tampilkan buku yang belum selesai dibaca
   books.forEach(book => {
     const bookItem = document.createElement('div');
     bookItem.setAttribute('data-bookid', book.id);
@@ -54,7 +49,10 @@ function displayBooks() {
   });
 }
 
-// Fungsi untuk menambahkan buku
+function saveToLocalStorage() {
+  localStorage.setItem('books', JSON.stringify(books));
+}
+
 bookForm.addEventListener('submit', function(event) {
   event.preventDefault();
   
@@ -64,7 +62,7 @@ bookForm.addEventListener('submit', function(event) {
   const isComplete = document.getElementById('bookFormIsComplete').checked;
 
   const newBook = {
-    id: Date.now(), // Menggunakan timestamp sebagai ID unik
+    id: Date.now(),
     title,
     author,
     year,
@@ -73,25 +71,25 @@ bookForm.addEventListener('submit', function(event) {
 
   books.push(newBook);
   displayBooks();
-  bookForm.reset(); // Reset form setelah menambahkan buku
+  saveToLocalStorage();
+  bookForm.reset();
 });
 
-// Fungsi untuk mengubah status buku
 function toggleComplete(bookId) {
   const book = books.find(b => b.id === bookId);
   if (book) {
     book.isComplete = !book.isComplete;
     displayBooks();
+    saveToLocalStorage();
   }
 }
 
-// Fungsi untuk menghapus buku
 function deleteBook(bookId) {
   books = books.filter(b => b.id !== bookId);
   displayBooks();
+  saveToLocalStorage();
 }
 
-// Fungsi untuk mengedit buku
 function editBook(bookId) {
   const book = books.find(b => b.id === bookId);
   if (book) {
@@ -100,19 +98,16 @@ function editBook(bookId) {
     document.getElementById('bookFormYear').value = book.year;
     document.getElementById('bookFormIsComplete').checked = book.isComplete;
     
-    // Hapus buku yang sedang diedit dari daftar
     deleteBook(bookId);
   }
 }
 
-// Fungsi untuk mencari buku
 searchBookForm.addEventListener('submit', function(event) {
   event.preventDefault();
   const searchTitle = document.getElementById('searchBookTitle').value.toLowerCase();
   
   const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchTitle));
   
-  // Kosongkan daftar dan tampilkan hasil pencarian
   incompleteBookList.innerHTML = '';
   completeBookList.innerHTML = '';
   
@@ -141,3 +136,5 @@ searchBookForm.addEventListener('submit', function(event) {
     }
   });
 });
+
+displayBooks();
